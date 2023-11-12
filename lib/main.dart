@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gas_calculator/screens/history.dart';
 import 'package:gas_calculator/screens/result.dart';
 
 void main() {
@@ -96,26 +97,60 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: MediaQuery.of(context).size.width,
                 color: Color(0xffFF9D03),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        //color: Colors.white,
-                        child: Text(
-                          'VOLVO XC90 2008',
-                          style: TextStyle(fontSize: 20),
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 50),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(12), // <-- Radius
+                              ),
+                              backgroundColor: Color(0xffFF9D03),
+                              textStyle: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HistoryScreen(),
+                                ));
+                          },
+                          child: Text(
+                            "History",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        child: Image(
-                          image: AssetImage('assets/1.png'),
-                        ),
-                      ),
-                    ]),
+                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 30),
+                            //color: Colors.white,
+                            child: Text(
+                              'VOLVO XC90 2008',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            child: Image(
+                              width: 300,
+                              image: AssetImage(
+                                'assets/1.png',
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ],
+                ),
               ),
               Container(
                 color: Colors.black,

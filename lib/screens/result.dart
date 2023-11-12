@@ -134,6 +134,24 @@ class _SecondRouteState extends State<SecondRoute> {
                               height: 30,
                             ),
                             informationb(widget.b, widget.a, widget.c),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Text(
+                                      'Adicionar ao historico',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ],
                       ),
