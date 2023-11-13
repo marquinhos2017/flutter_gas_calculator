@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gas_calculator/model.dart';
+import 'package:gas_calculator/screens/datahelper.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class HistoryScreen extends StatefulWidget {
   HistoryScreen({
@@ -13,6 +17,27 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  List<Map<String, dynamic>> myData = [];
+
+  void _refreshData() async {
+    final data = await DatabaseHelper.getItems();
+    setState(() {
+      myData = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshData(); // Loading the data when the app starts
+  }
+
+  void deleteItem(int id) async {
+    await DatabaseHelper.deleteItem(id);
+
+    _refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +48,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 60),
+                  margin: EdgeInsets.only(top: 40),
                   padding: EdgeInsets.all(0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +60,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           padding: EdgeInsets.only(bottom: 30),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context as BuildContext);
                             },
                             child: Icon(
                               Icons.arrow_back,
@@ -43,89 +69,35 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom: 20),
+                          padding: EdgeInsets.only(bottom: 0),
                           child: Text(
                             'History',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.bold, fontSize: 24),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '16 Oct 23',
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  item(),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '02 Oct 23',
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  item(),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '31 Sep 23',
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  item(),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '24 Sep 23',
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  item(),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '01 Aug 23',
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  item(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                       ]),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: myData.length,
+                    itemBuilder: (context, index) => Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('16 Aug 23'),
+                          item(myData[index]['title'],
+                              myData[index]['description']),
+                          ElevatedButton(
+                              onPressed: () {
+                                deleteItem(myData[index]['id']);
+                              },
+                              child: Icon(Icons.delete))
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -306,7 +278,7 @@ Widget informationb(int a, int b, double per_gallon) {
   );
 }
 
-Widget item() {
+Widget item(String a, String b) {
   return Container(
     height: 50,
     width: 400,
@@ -324,7 +296,7 @@ Widget item() {
           children: [
             Container(
               child: Text(
-                '3.5 Gallons | \$12,54',
+                '${a} | ${b}',
                 style: GoogleFonts.montserrat(
                   color: Color(0xffFFA326),
                   fontWeight: FontWeight.w700,

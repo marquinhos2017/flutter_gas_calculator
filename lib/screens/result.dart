@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gas_calculator/model.dart';
+import 'package:gas_calculator/screens/datahelper.dart';
+import 'package:gas_calculator/screens/history.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class SecondRoute extends StatefulWidget {
   final int a;
@@ -125,7 +130,7 @@ class _SecondRouteState extends State<SecondRoute> {
                             Center(
                               child: CircularProgressIndicator(
                                 valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Color(0xffFF9D03)),
+                                    Color.fromARGB(255, 193, 126, 20)),
                               ),
                             )
                           ] else ...[
@@ -141,8 +146,26 @@ class _SecondRouteState extends State<SecondRoute> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  child: GestureDetector(
-                                    onTap: () {},
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors
+                                          .amber, // Text Color (Foreground color)
+                                    ),
+                                    onPressed: () async {
+                                      var galloes =
+                                          ((widget.a - widget.b) / 14);
+                                      var price = (galloes * widget.c);
+                                      String a = galloes.toStringAsFixed(2);
+                                      String b = price.toStringAsFixed(2);
+
+                                      await DatabaseHelper.createItem(a, b);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                HistoryScreen(),
+                                          ));
+                                    },
                                     child: Text(
                                       'Adicionar ao historico',
                                       style: TextStyle(
