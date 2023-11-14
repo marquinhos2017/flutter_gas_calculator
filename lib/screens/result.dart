@@ -134,6 +134,9 @@ class _SecondRouteState extends State<SecondRoute> {
                               ),
                             )
                           ] else ...[
+                            SizedBox(
+                              height: 10,
+                            ),
                             information(widget.b, widget.a),
                             SizedBox(
                               height: 30,
@@ -148,8 +151,8 @@ class _SecondRouteState extends State<SecondRoute> {
                                 Container(
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors
-                                          .amber, // Text Color (Foreground color)
+                                      backgroundColor: Color(
+                                          0xff424141), // Text Color (Foreground color)
                                     ),
                                     onPressed: () async {
                                       var galloes =
@@ -169,7 +172,8 @@ class _SecondRouteState extends State<SecondRoute> {
                                     child: Text(
                                       'Adicionar ao historico',
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
+                                          color: Color(0xffFFA326),
+                                          fontSize: 12),
                                     ),
                                   ),
                                 )

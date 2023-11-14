@@ -6,6 +6,7 @@ import 'package:gas_calculator/screens/datahelper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HistoryScreen extends StatefulWidget {
   HistoryScreen({
@@ -82,19 +83,66 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child: ListView.builder(
                     itemCount: myData.length,
                     itemBuilder: (context, index) => Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('16 Aug 23'),
-                          item(myData[index]['title'],
-                              myData[index]['description']),
-                          ElevatedButton(
-                              onPressed: () {
-                                deleteItem(myData[index]['id']);
-                              },
-                              child: Icon(Icons.delete))
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '16 Aug 23',
+                              style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              height: 50,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color(0xff424141),
+                              ),
+                              child: Container(
+                                //color: Colors.white,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          '${myData[index]['title']} Gallons | \$${myData[index]['description']}',
+                                          style: GoogleFonts.montserrat(
+                                            color: Color(0xffFFA326),
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shadowColor: Colors.transparent,
+                                            backgroundColor: Colors.transparent,
+                                            // Text Color (Foreground color)
+                                          ),
+                                          onPressed: () {
+                                            deleteItem(myData[index]['id']);
+                                          },
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Color(0xffFFA326),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
