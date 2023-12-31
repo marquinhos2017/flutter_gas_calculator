@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:gas_calculator/main.dart';
 import 'package:gas_calculator/model.dart';
 import 'package:gas_calculator/screens/datahelper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +60,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           padding: EdgeInsets.only(bottom: 30),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pop(context as BuildContext);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
                             },
                             child: Icon(
                               Icons.arrow_back,
@@ -125,8 +125,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ),
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            shadowColor: Colors.transparent,
-                                            backgroundColor: Colors.transparent,
+                                            shadowColor: Color(0xff424141),
+                                            backgroundColor: Color(0xff424141),
                                             // Text Color (Foreground color)
                                           ),
                                           onPressed: () {
